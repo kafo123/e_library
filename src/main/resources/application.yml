@@ -1,0 +1,42 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: e-library
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/e_library?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&createDatabaseIfNotExist=true
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:root}
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+
+# 业务配置
+library:
+  borrow-days: 14                      # 借阅期限(天)
+  redis-unhealthy-seconds: 10           # Redis 故障后降级窗口(秒)
+  cache:
+    book-detail-ttl-seconds: 1800       # 详情缓存 TTL(30min)
+    book-detail-jitter-seconds: 300     # TTL 抖动幅度(防雪崩)
+    browse-ttl-seconds: 300             # 浏览分页缓存 TTL
+    null-value-ttl-seconds: 60          # 空值标记 TTL(防穿透)
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    com.elibrary: INFO
